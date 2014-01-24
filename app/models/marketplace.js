@@ -1,4 +1,4 @@
-require('app/models/user_marketplace');
+/*require('app/models/user_marketplace');
 
 Balanced.Marketplace = Balanced.UserMarketplace.extend({
 	uri: '/marketplaces',
@@ -44,3 +44,4 @@ Balanced.TypeMappings.addTypeMapping('marketplace', 'Balanced.Marketplace');
 Balanced.Marketplace.reopenClass({
 	serializer: Balanced.Rev1Serializer.create()
 });
+*/

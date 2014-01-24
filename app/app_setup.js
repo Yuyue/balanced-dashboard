@@ -27,6 +27,36 @@ window.setupBalanced = function(divSelector) {
 		//  initialize anything that needs to be done on application load
 		Balanced.Analytics.init(Ember.ENV.BALANCED);
 
+		// use JSON API adapter
+		Balanced.ApplicationAdapter = DS.JsonApiAdapter;
+
+		Balanced.ApplicationAdapter.reopen({
+			host: ENV.BALANCED.API,
+
+			ajax: function(url, type, hash) {
+				this.headers = {
+					'Accept': 'application/vnd.balancedpayments+json; version=1.1, */*; q=0.1'
+				};
+
+				if(Balanced.NET.defaultApiKey) {
+					this.headers['Authorization'] = Balanced.Utils.encodeAuthorization(Balanced.NET.defaultApiKey);
+				}
+
+				if (url.indexOf(ENV.BALANCED.AUTH) !== -1) {
+					if (Balanced.NET.csrfToken) {
+						this.headers['X-CSRFToken'] = Balanced.NET.csrfToken;
+					}
+
+					hash.xhrFields = {
+						withCredentials: true
+					};
+				}
+
+				return this._super(url, type, hash);
+			}
+
+		});
+
 		// Configure modal parent selector
 		$.fn.modal.defaults.manager = divSelector;
 	};
