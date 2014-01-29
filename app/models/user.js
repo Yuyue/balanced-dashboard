@@ -1,4 +1,4 @@
-Balanced.User = Balanced.Model.extend(Ember.Validations, {
+/*Balanced.User = Balanced.Model.extend(Ember.Validations, {
 	user_marketplaces: Balanced.Model.hasMany('user_marketplaces', 'Balanced.UserMarketplace'),
 
 	user_marketplace_for_id: function(id) {
@@ -50,3 +50,4 @@ Balanced.User.reopenClass({
 		},
 	}).create(),
 });
+*/

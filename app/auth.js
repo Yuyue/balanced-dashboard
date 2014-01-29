@@ -2,6 +2,10 @@ Balanced.Auth = (function() {
 	var auth = Ember.Object.extend(Ember.Evented).create();
 
 	auth._doSignIn = function(opts) {
+		// this is ugly, but necessary since the store is not injected
+		// into this custom Auth Object.
+		var store = Balanced.__container__.lookup('store:main');
+
 		var self = this;
 		if (null == opts) {
 			opts = {};
@@ -11,8 +15,9 @@ Balanced.Auth = (function() {
 			url: ENV.BALANCED.AUTH + '/logins',
 			type: 'POST'
 		}, opts)).done(function(response, status, jqxhr) {
-			var user = Balanced.User.create();
-			user.populateFromJsonResponse(response.user);
+			store.createRecord('user', response.user);
+
+			var user = store.getById('user', response.user.id);
 
 			self.setAuthProperties(true,
 				user,

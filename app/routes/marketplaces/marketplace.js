@@ -5,12 +5,13 @@ Balanced.MarketplaceRoute = Balanced.AuthRoute.extend({
 		var marketplace = Balanced.Marketplace.find(marketplaceURI);
 		return marketplace;
 		*/
-		console.log(this.store.find('marketplace', params.marketplace_id));
-		return this.store.find('marketplace', params.marketplace_id);
-	},
 
-	afterModel: function(model) {
-		Balanced.Utils.setCurrentMarketplace(model);
+		var userMarketplace = Balanced.Auth.get('user.user_marketplaces').find(function(marketplace) {
+			return marketplace.get('id') === params.marketplace_id;
+		});
+
+		Balanced.Utils.setCurrentMarketplace(userMarketplace);
+		return this.store.find('marketplace', params.marketplace_id);
 	},
 
 	// if we passed a marketplace to #linkTo, need this to set current marketplace
